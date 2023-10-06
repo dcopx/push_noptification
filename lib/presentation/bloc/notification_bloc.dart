@@ -45,7 +45,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     //print(token);
   }
 
-  void _handleRemoteMessages(RemoteMessage message) {
+  void handleRemoteMessages(RemoteMessage message) {
     if (message.notification == null) return;
     final notificacion = PushMessage(
         messageID:
@@ -62,7 +62,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   }
 
   void _onForegroundMessage() {
-    FirebaseMessaging.onMessage.listen(_handleRemoteMessages);
+    FirebaseMessaging.onMessage.listen(handleRemoteMessages);
   }
 
   void requestAuthorization() async {
@@ -75,5 +75,12 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       sound: true,
     );
     add(NotificationStatusChanged(settings.authorizationStatus));
+  }
+
+  PushMessage? getMessageByID(String messageID) {
+    final exist =
+        state.notifications.any((element) => element.messageID == messageID);
+    if (!exist) return null;
+    state.notifications.firstWhere((element) => element.messageID == messageID);
   }
 }

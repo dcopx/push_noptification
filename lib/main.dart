@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:push_noptification/config/app_routes.dart';
 import 'package:push_noptification/config/app_theme.dart';
+import 'package:push_noptification/domain/interaction/handle_interaction.dart';
 import 'package:push_noptification/firebase_options.dart';
 import 'package:push_noptification/presentation/bloc/notification_bloc.dart';
 
@@ -26,6 +27,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       theme: AppTheme().getTheme(),
       routerConfig: AppRoutes,
+      builder: (context, child) => HandleNotificationInteraction(child: child!),
     );
   }
 }
